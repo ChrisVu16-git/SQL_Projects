@@ -1,13 +1,5 @@
-# Ignore datasets
-data/**/*.csv
-
-# Ignore Python cache
-__pycache__/
-*.pyc
-
-# Ignore environment variables
+*.csv
 .env
 .venv/
-
-# Ignore Jupyter checkpoints
+__pycache__/
 .ipynb_checkpoints/

@@ -6,8 +6,8 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "SLQ_Project",
-            "database": "postgres",
+            "name": "slq_project",
+            "database": "sql_course",
             "username": "postgres"
         }
     ]

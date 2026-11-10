@@ -33,15 +33,13 @@ The analysis uses job posting data containing job titles, companies, locations, 
 | `skills_dim` | Skill names and IDs |
 | `skills_job_dim` | Bridge table connecting job postings to skills |
 
-**Relationship:** `job_postings_fact.job_id` → `skills_job_dim.job_id` → `skills_dim.skill_id`. Company names join through `company_id`.
-
 **Database setup:** [Create database](sql_load/1_create_database.sql) · [Create tables](sql_load/2_create_tables.sql) · [Modify tables](sql_load/3_modify_tables.sql)
 
 ---
 
 ## Entity Relationship Diagram (ERD)
 
-The diagram below is based on the column headers in the four supplied CSV files. The `skills_job_dim` table is a many-to-many bridge between job postings and skills.
+The ERD shows the primary join keys and fields used in the analysis. `skills_job_dim` connects job postings and skills.
 
 ```mermaid
 erDiagram
@@ -52,43 +50,27 @@ erDiagram
     company_dim {
         int company_id PK
         string name
-        string link
-        string link_google
-        string thumbnail
     }
-
     job_postings_fact {
         int job_id PK
         int company_id FK
         string job_title_short
-        string job_title
         string job_location
-        string job_via
-        string job_schedule_type
-        boolean job_work_from_home
-        string search_location
         date job_posted_date
-        boolean job_no_degree_mention
-        boolean job_health_insurance
-        string job_country
-        string salary_rate
         float salary_year_avg
-        float salary_hour_avg
     }
-
     skills_dim {
         int skill_id PK
         string skills
         string type
     }
-
     skills_job_dim {
         int job_id FK
         int skill_id FK
     }
 ```
 
-**Keys and relationships:** `job_postings_fact.job_id`, `company_dim.company_id`, and `skills_dim.skill_id` are modeled as primary keys. `skills_job_dim` links jobs and skills through its two foreign-key columns; the pair `(job_id, skill_id)` is a logical composite key. These key constraints and data types are diagrammed as intended relational structure rather than verified database constraints.
+**Note:** The diagram illustrates intended relationships; it does not independently verify database constraints.
 
 ---
 
@@ -96,14 +78,9 @@ erDiagram
 
 ### 1. What are the highest-paying remote Data Analyst jobs?
 
-**Business question:** Which Data Analyst positions listed as `Anywhere` offer the highest advertised annual salaries?
-
 **SQL:** [View full query](project_sql/1_top_paying_job.sql)
 
-**Steps:**
-1. Filter job postings to Data Analyst roles with location `Anywhere` and non-null annual salary.
-2. Join `job_postings_fact` to `company_dim` to identify employers.
-3. Sort by annual salary in descending order and return the top ten jobs.
+**Approach:** Filter job postings to Data Analyst roles with location `Anywhere` and non-null annual salary; Join `job_postings_fact` to `company_dim` to identify employers; Sort by annual salary in descending order and return the top ten jobs.
 
 **Answer:** The query identifies the highest advertised salaries within the remote subset. These top-paying positions are not representative of typical Data Analyst compensation because experience and employer requirements vary.
 
@@ -111,14 +88,9 @@ erDiagram
 
 ### 2. Which skills are required for the highest-paying jobs?
 
-**Business question:** What skills appear in the top ten highest-paying remote Data Analyst postings?
+**SQL:** [View full query](project_sql/2_top_paying_job_skills.sql) · **Python:** [View notebook](notebooks/2_top_paying_job_chart.ipynb)
 
-**SQL:** [View full query](project_sql/2_top_paying_job_skills.sql) · **Python:** [View notebook](project_sql/2_top_paying_job_chart.ipynb)
-
-**Steps:**
-1. Use a Common Table Expression (CTE) to select the ten highest-paying remote jobs.
-2. Join those jobs to `skills_job_dim` and `skills_dim`.
-3. Analyze the resulting job–skill pairs in Python.
+**Approach:** Use a Common Table Expression (CTE) to select the ten highest-paying remote jobs; Join those jobs to `skills_job_dim` and `skills_dim`; Analyze the resulting job–skill pairs in Python.
 
 **Answer:**
 
@@ -130,14 +102,9 @@ The selected roles include SQL, Python, R, Excel, Tableau, Power BI, and cloud/d
 
 ### 3. What are the most in-demand Data Analyst skills?
 
-**Business question:** Which skills are mentioned most frequently across Data Analyst job advertisements?
+**SQL:** [View full query](project_sql/3_top_demanded_skills.sql) · **Python:** [View notebook](notebooks/3_top_demanded_skills.ipynb)
 
-**SQL:** [View full query](project_sql/3_top_demanded_skills.sql) · **Python:** [View notebook](project_sql/3_top_demanded_skills.ipynb)
-
-**Steps:**
-1. Join job postings to the job–skill bridge and skill dimension.
-2. Filter for Data Analyst postings with a non-null job location.
-3. Group by skill, count mentions, and rank from highest to lowest.
+**Approach:** Join job postings to the job–skill bridge and skill dimension; Filter for Data Analyst postings with a non-null job location; Group by skill, count mentions, and rank from highest to lowest.
 
 **Answer:**
 
@@ -157,21 +124,13 @@ The selected roles include SQL, Python, R, Excel, Tableau, Power BI, and cloud/d
 
 ### 4. Which skills are associated with the highest average salaries?
 
-**Business question:** Which skills have the highest average advertised annual salaries among Data Analyst postings?
+**SQL:** [View full query](project_sql/4_top_paying_skill.sql) · **Python:** [View notebook](notebooks/4_top_paying_skill.ipynb)
 
-**SQL:** [View full query](project_sql/4_top_paying_skill.sql) · **Python:** [View notebook](project_sql/4_top_paying_skill.ipynb)
-
-**Steps:**
-1. Join job postings to their associated skills.
-2. Include only postings with reported annual salaries.
-3. Calculate average annual salary by skill.
-4. Require at least 30 salary-reported postings per skill to reduce single-observation distortions.
+**Approach:** Join job postings to their associated skills; Include only postings with reported annual salaries; Calculate average annual salary by skill; Require at least 30 salary-reported postings per skill to reduce single-observation distortions.
 
 **Answer:**
 
 ![Top skills by average salary](assests/output_query4_top10highestpay.png)
-
-![Salary comparison by skill](assests/output_query4_top10skillbysalary.png)
 
 ![Salary versus sample size](assests/output_query4_averagesalaryperjobcount.png)
 
@@ -190,21 +149,11 @@ The selected roles include SQL, Python, R, Excel, Tableau, Power BI, and cloud/d
 
 ### 5. Which skills provide the best combination of demand and salary?
 
-**Business question:** Which Data Analyst skills combine frequent job-market demand with comparatively strong advertised salaries?
+**SQL:** [View full query](project_sql/5_most_optimal_skill.sql) · **Python:** [View notebook](notebooks/5_most_optimal_skill.ipynb)
 
-**SQL:** [View full query](project_sql/5_most_optimal_skill.sql) · **Python:** [View notebook](project_sql/5_most_optimal_skill.ipynb)
-
-**Steps:**
-1. Count distinct Data Analyst postings mentioning each skill.
-2. Divide skill-specific job counts by the total number of Data Analyst postings to calculate demand share.
-3. Calculate average salary using only postings that report annual salary.
-4. Compare demand, salary, and salary-reporting sample size.
+**Approach:** Count distinct Data Analyst postings mentioning each skill; Divide skill-specific job counts by the total number of Data Analyst postings to calculate demand share; Calculate average salary using only postings that report annual salary; Compare demand, salary, and salary-reporting sample size.
 
 **Answer:**
-
-![Most demanded skills](assests/output_query5_top10skillondemandforDA.png)
-
-![Skills ranked by salary](assests/output_query5_top10skillbaseonsalary.png)
 
 ![Skill demand versus salary](assests/output_query5_overallskillbaseonsalary.png)
 
@@ -246,7 +195,9 @@ jupyter notebook
 
 6. Update notebook input paths to point to your local SQL exports.
 
-**Project files:** [SQL analyses](project_sql/) · [Database scripts](sql_load/) · [Charts](assests/)
+**Project files:** [SQL analyses](project_sql/) · [Python notebooks](notebooks/) · [Database scripts](sql_load/) · [Charts](assests/)
+
+The original chart files remain in `assests/`; the folder name is preserved so existing image links continue working.
 
 ---
 

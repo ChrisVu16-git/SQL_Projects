@@ -7,6 +7,7 @@ An analysis of Data Analyst job postings to identify the most in-demand skills, 
 ## 📚 Table of Contents
 - [Business Task](#business-task)
 - [Dataset and Relational Model](#dataset-and-relational-model)
+- [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 - [Questions and Solutions](#questions-and-solutions)
 - [Summary of Findings](#summary-of-findings)
 - [Run the Project](#run-the-project)
@@ -35,6 +36,59 @@ The analysis uses job posting data containing job titles, companies, locations, 
 **Relationship:** `job_postings_fact.job_id` → `skills_job_dim.job_id` → `skills_dim.skill_id`. Company names join through `company_id`.
 
 **Database setup:** [Create database](sql_load/1_create_database.sql) · [Create tables](sql_load/2_create_tables.sql) · [Modify tables](sql_load/3_modify_tables.sql)
+
+---
+
+## Entity Relationship Diagram (ERD)
+
+The diagram below is based on the column headers in the four supplied CSV files. The `skills_job_dim` table is a many-to-many bridge between job postings and skills.
+
+```mermaid
+erDiagram
+    company_dim ||--o{ job_postings_fact : "company_id"
+    job_postings_fact ||--o{ skills_job_dim : "job_id"
+    skills_dim ||--o{ skills_job_dim : "skill_id"
+
+    company_dim {
+        int company_id PK
+        string name
+        string link
+        string link_google
+        string thumbnail
+    }
+
+    job_postings_fact {
+        int job_id PK
+        int company_id FK
+        string job_title_short
+        string job_title
+        string job_location
+        string job_via
+        string job_schedule_type
+        boolean job_work_from_home
+        string search_location
+        date job_posted_date
+        boolean job_no_degree_mention
+        boolean job_health_insurance
+        string job_country
+        string salary_rate
+        float salary_year_avg
+        float salary_hour_avg
+    }
+
+    skills_dim {
+        int skill_id PK
+        string skills
+        string type
+    }
+
+    skills_job_dim {
+        int job_id FK
+        int skill_id FK
+    }
+```
+
+**Keys and relationships:** `job_postings_fact.job_id`, `company_dim.company_id`, and `skills_dim.skill_id` are modeled as primary keys. `skills_job_dim` links jobs and skills through its two foreign-key columns; the pair `(job_id, skill_id)` is a logical composite key. These key constraints and data types are diagrammed as intended relational structure rather than verified database constraints.
 
 ---
 

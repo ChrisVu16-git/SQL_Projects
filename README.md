@@ -82,7 +82,22 @@ erDiagram
 
 **Approach:** Filter job postings to Data Analyst roles with location `Anywhere` and non-null annual salary; Join `job_postings_fact` to `company_dim` to identify employers; Sort by annual salary in descending order and return the top ten jobs.
 
-**Answer:** The query identifies the highest advertised salaries within the remote subset. These top-paying positions are not representative of typical Data Analyst compensation because experience and employer requirements vary.
+**Answer:**
+
+| Rank | Job title | Company | Annual salary (USD) |
+|---:|---|---|---:|
+| 1 | Data Analyst | Mantys | $650,000 |
+| 2 | Director of Analytics | Meta | $336,500 |
+| 3 | Associate Director- Data Insights | AT&T | $255,829.50 |
+| 4 | Data Analyst, Marketing | Pinterest Job Advertisements | $232,423 |
+| 5 | Data Analyst (Hybrid/Remote) | Uclahealthcareers | $217,000 |
+| 6 | Principal Data Analyst (Remote) | SmartAsset | $205,000 |
+| 7 | Director, Data Analyst - HYBRID | Inclusively | $189,309 |
+| 8 | Principal Data Analyst, AV Performance Analysis | Motional | $189,000 |
+| 9 | Principal Data Analyst | SmartAsset | $186,000 |
+| 10 | ERM Data Analyst | Get It Recruit - Information Technology | $184,000 |
+
+**Business insight:** The top results include director-level and principal positions, not only entry-level Data Analyst jobs. The $650,000 Mantys posting is a particularly large outlier. These values are the output of the SQL query against the project's source CSVs, not verified current offers or representative market salaries. The query uses `job_location = 'Anywhere'`, even when the job title contains “Hybrid.”
 
 ---
 

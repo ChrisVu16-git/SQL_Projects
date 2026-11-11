@@ -4,6 +4,10 @@
 
 An analysis of Data Analyst job postings to identify the most in-demand skills, highest-paying remote roles, and the relationship between advertised salary and skill demand.
 
+**[📈 Explore the interactive portfolio dashboard](index.html)** · [View dashboard source](index.html)
+
+> To publish the dashboard as a website, enable GitHub Pages from the repository's **Settings → Pages**, select **Deploy from a branch**, then choose **main** and **/(root)**. The live address will typically be `https://chrisvu16-git.github.io/SQL_Projects/` after GitHub finishes deploying.
+
 ## 📚 Table of Contents
 - [Business Task](#business-task)
 - [Dataset and Relational Model](#dataset-and-relational-model)

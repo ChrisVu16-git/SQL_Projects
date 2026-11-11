@@ -30,8 +30,7 @@ LIMIT 10;
 -- DATA VALIDATION (run after the analysis query)
 -- ============================================================
 
--- VALIDATION 1: Confirm the top-ten selection is unique, salary-reporting,
--- remote by the dataset's 'Anywhere' definition, and correctly ranked.
+-- Confirm the top-ten selection is unique, salary-reporting, remote by the dataset's 'Anywhere' definition, and correctly ranked.
 WITH eligible AS (
     SELECT job_id, salary_year_avg
     FROM job_postings_fact
@@ -59,7 +58,7 @@ checks AS (
                AND e.job_id NOT IN (SELECT job_id FROM top_ten)
          )) AS ranking_errors
 )
-SELECT 'Q1: highest-paying remote jobs' AS validation,
+SELECT 'highest-paying remote jobs' AS validation,
        CASE WHEN expected_rows > 0
                   AND actual_rows = expected_rows
                   AND distinct_jobs = actual_rows

@@ -41,8 +41,7 @@ Business communication tools also matter. PowerPoint and Word appear among the t
 -- DATA VALIDATION (run after the analysis query)
 -- ============================================================
 
--- VALIDATION 3: Check the ranked skill counts against distinct job IDs,
--- and confirm the exact non-null-location filter used in Question 3.
+--Check the ranked skill counts against distinct job IDs and confirm the exact non-null-location filter
 WITH ranked_skills AS (
     SELECT sd.skill_id, sd.skills,
            COUNT(sjd.job_id) AS mentions,
@@ -70,7 +69,7 @@ checks AS (
                        WHERE s.mentions > t.mentions
                          AND s.skill_id NOT IN (SELECT skill_id FROM top_ten))) AS ranking_errors
 )
-SELECT 'Q3: most demanded skills' AS validation,
+SELECT 'most demanded skills' AS validation,
        CASE WHEN expected_rows > 0 AND actual_rows = expected_rows
                   AND duplicate_job_skill_counts = 0
                   AND invalid_top_skills = 0 AND ranking_errors = 0

@@ -14,6 +14,7 @@ An analysis of Data Analyst job postings to identify the most in-demand skills, 
 - [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 - [Questions and Solutions](#questions-and-solutions)
 - [Summary of Findings](#summary-of-findings)
+- [SQL Validation](#sql-validation)
 - [Run the Project](#run-the-project)
 
 ---
@@ -198,6 +199,24 @@ The selected roles include SQL, Python, R, Excel, Tableau, Power BI, and cloud/d
 3. **Python offers a strong demand–salary combination:** It is widely requested and has a higher observed salary average than several common BI tools.
 4. **Specialized skills have a different trade-off:** Kafka, Airflow, and Spark are associated with higher salaries but generally smaller salary-reporting samples or narrower demand.
 5. **Sample size matters:** Salary averages reflect only advertisements with disclosed annual compensation.
+
+## SQL Validation
+
+Each of the five analysis scripts now includes a **DATA VALIDATION** section after the main query. Run the analysis query and then its validation query in PostgreSQL / pgAdmin. The validation result returns a `status` column containing `PASS` or `FAIL` with diagnostic counts.
+
+| Analysis | Validation focus |
+|---|---|
+| [Q1: Top-paying jobs](project_sql/1_top_paying_job.sql) | Ten or fewer eligible jobs, unique jobs, positive salaries and correct top-salary selection |
+| [Q2: Skills of top jobs](project_sql/2_top_paying_job_skills.sql) | Skills belong to the selected ten jobs, bridge-row coverage, no duplicate job–skill pairs |
+| [Q3: In-demand skills](project_sql/3_top_demanded_skills.sql) | Demand counts, no duplicate job–skill counts and correct top-ten ranking |
+| [Q4: High-salary skills](project_sql/4_top_paying_skill.sql) | Salary-reported sample threshold (at least 30), positive annual salaries and salary ranking |
+| [Q5: Demand vs salary](project_sql/5_most_optimal_skill.sql) | Percentage bounds, salary-reporting counts and unique job–skill pairs |
+
+**Important:** These checks have been added to the SQL files but have not been executed against the PostgreSQL database from this session. A `PASS` indicates that the listed consistency rules hold for the loaded dataset; it does not independently prove the dataset is complete or that external salary data is accurate.
+
+The scripts also use consistent ordering for tied values. In Question 4, the results are now sorted by **average salary descending**, matching the original business question. Question 5's documentation now describes the actual scope: **all Data Analyst postings**, not only remote roles.
+
+---
 
 ## Run the Project
 

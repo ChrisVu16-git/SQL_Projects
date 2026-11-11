@@ -5,10 +5,6 @@ annual salaries for Data Analyst roles? Demand uses ALL Data Analyst postings
 use only jobs with non-null annual salary. Minimum salary sample: 30 jobs.
 This is a descriptive comparison, not a job-security or salary guarantee.
 */
-
-
-
-
 WITH total_da_jobs AS (
     SELECT
         COUNT(*) AS total_jobs
@@ -64,8 +60,7 @@ Specialized skills have higher observed salary averages but much narrower demand
 -- DATA VALIDATION (run after the analysis query)
 -- ============================================================
 
--- VALIDATION 5: Verify demand percentages use ALL Data Analyst postings,
--- while average salary uses only postings with annual salary data.
+-- Verify demand percentages use ALL Data Analyst postings,while average salary uses only postings with annual salary data.
 WITH totals AS (
     SELECT COUNT(*) AS total_da_jobs
     FROM job_postings_fact WHERE job_title_short = 'Data Analyst'
@@ -104,7 +99,7 @@ checks AS (
            GROUP BY sjd.job_id, sjd.skill_id HAVING COUNT(*) > 1
          ) duplicate_pairs) AS duplicate_job_skill_pairs
 )
-SELECT 'Q5: demand versus salary' AS validation,
+SELECT 'demand versus salary' AS validation,
        CASE WHEN total_da_jobs > 0 AND qualifying_skills > 0
                   AND invalid_metrics = 0 AND duplicate_job_skill_pairs = 0
             THEN 'PASS' ELSE 'FAIL' END AS status,

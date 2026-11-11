@@ -1,9 +1,9 @@
 /*
 Question : what are the most in-demand skills for data analysts ? 
 -Join job posting to inner join table similar to query 2 
--Identify the top 5 in-demand skills for a DA
+-Identify the top 10 in-demand skills for a DA
 -Focus on all job postings
--Why ? Retrieves the top 5 skills with the highest demand in the job market
+-Why ? Retrieves the top 10 skills with the highest demand in the job market
 */
 
 
@@ -22,8 +22,8 @@ WHERE
 GROUP BY
     skills
 ORDER BY
-    demand_count DESC
-LIMIT 10
+    demand_count DESC, skills ASC
+LIMIT 10;
 
 /*
 SQL is the most demanded skill. It appears 92,470 times, approximately 38% more often than Excel and 62% more often than Python. This supports making SQL a central part of your Data Analyst learning.
@@ -37,3 +37,44 @@ Tableau leads Power BI in this sample. Tableau has 46,469 mentions versus Power 
 Business communication tools also matter. PowerPoint and Word appear among the top 10, indicating that presenting and documenting findings are relevant to analyst roles.
 */
 
+-- ============================================================
+-- DATA VALIDATION (run after the analysis query)
+-- ============================================================
+
+-- VALIDATION 3: Check the ranked skill counts against distinct job IDs,
+-- and confirm the exact non-null-location filter used in Question 3.
+WITH ranked_skills AS (
+    SELECT sd.skill_id, sd.skills,
+           COUNT(sjd.job_id) AS mentions,
+           COUNT(DISTINCT sjd.job_id) AS unique_jobs
+    FROM job_postings_fact jpf
+    JOIN skills_job_dim sjd ON jpf.job_id = sjd.job_id
+    JOIN skills_dim sd ON sjd.skill_id = sd.skill_id
+    WHERE jpf.job_title_short = 'Data Analyst'
+      AND jpf.job_location IS NOT NULL
+    GROUP BY sd.skill_id, sd.skills
+),
+top_ten AS (
+    SELECT * FROM ranked_skills
+    ORDER BY mentions DESC, skills ASC
+    LIMIT 10
+),
+checks AS (
+    SELECT
+        (SELECT COUNT(*) FROM top_ten) AS actual_rows,
+        (SELECT LEAST(COUNT(*), 10) FROM ranked_skills) AS expected_rows,
+        (SELECT COUNT(*) FROM ranked_skills WHERE mentions <> unique_jobs) AS duplicate_job_skill_counts,
+        (SELECT COUNT(*) FROM top_ten WHERE skills IS NULL OR mentions <= 0) AS invalid_top_skills,
+        (SELECT COUNT(*) FROM top_ten t
+         WHERE EXISTS (SELECT 1 FROM ranked_skills s
+                       WHERE s.mentions > t.mentions
+                         AND s.skill_id NOT IN (SELECT skill_id FROM top_ten))) AS ranking_errors
+)
+SELECT 'Q3: most demanded skills' AS validation,
+       CASE WHEN expected_rows > 0 AND actual_rows = expected_rows
+                  AND duplicate_job_skill_counts = 0
+                  AND invalid_top_skills = 0 AND ranking_errors = 0
+            THEN 'PASS' ELSE 'FAIL' END AS status,
+       actual_rows, expected_rows, duplicate_job_skill_counts,
+       invalid_top_skills, ranking_errors
+FROM checks;

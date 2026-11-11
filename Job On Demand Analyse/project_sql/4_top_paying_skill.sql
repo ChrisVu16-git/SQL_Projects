@@ -51,15 +51,13 @@ Finding 1 — Specialized technologies lead the salary ranking. Kafka has the hi
 Finding 2 — SQL and Python have substantially more salary observations. SQL has 3,083 salary-reported postings and Python has 1,840, compared with Kafka's 40. This gives their averages a larger observational base.
 Finding 3 — Python is associated with higher average salaries than SQL and Excel. Python's average is approximately $5,077 above SQL and $15,093 above Excel. This is an association, not a causal salary premium.
 Finding 4 — The median of the 74 skill-level salary averages is $100,573. This is not the median salary of Data Analyst workers or postings.
-For your portfolio, Chart 3 is especially useful: it demonstrates that a high average salary may be supported by relatively few observations, which is an important consideration when interpreting salary rankings.
 */
 
 -- ============================================================
 -- DATA VALIDATION (run after the analysis query)
 -- ============================================================
 
--- VALIDATION 4: Recompute annual-salary averages from salary-reported
--- postings only, verify the minimum 30-job sample, and check salary ranking.
+-- verify the minimum 30-job sample  and check salary ranking.
 WITH salary_observations AS (
     SELECT sd.skill_id, sd.skills, jpf.job_id, jpf.salary_year_avg
     FROM job_postings_fact jpf

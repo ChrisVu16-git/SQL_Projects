@@ -1,0 +1,14 @@
+# Local database configuration and credentials
+.env
+.env.*
+!.env.example
+*.secret
+credentials.json
+# Temporary Power BI files
+*.pbitmp
+*.tmp
+# Large raw extracts (keep small approved samples under data/)
+raw/
+exports/
+__pycache__/
+.DS_Store

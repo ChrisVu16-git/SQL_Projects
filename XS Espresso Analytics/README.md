@@ -32,21 +32,23 @@ Relationships use date and store identifiers, with dimensions filtering facts. T
 > **Model consideration:** The monthly P&L fact has a different date grain from daily facts; month-level reporting should use an appropriate month key or date strategy rather than assuming that every daily date filters a month-start column identically.
 
 
-## 3. Power BI Dashboard
+## 3. Business Overview
 
-The Power BI report includes an Executive Overview and Sales Performance views covering network sales, gross margin, operating profit, labour cost, store rankings, hourly revenue, weekday revenue, channel mix, and food/drink revenue.
+### Revenue Dashboard
 
-The three analytical visualisations—**Demand Heatmap**, **Actual vs Forecast**, and **Store Performance Quadrant**—were produced separately and are not embedded in the original PBIX.
+![XS Espresso revenue dashboard](screenshots/revenue_dashboard.png)
+
+XS Espresso is an Australian café brand offering specialty coffee, all-day dining, and a diverse food and beverage menu across multiple locations in New South Wales. Operating in a competitive hospitality market, the business relies on consistent customer demand, efficient staffing, and effective cost management to maintain profitability.
 
 ### Monthly Sales Distribution
 
 ![XS Espresso monthly sales distribution](screenshots/sales_monthly_distribution.png)
 
-This view summarises the sales distribution over time, providing a starting point for examining seasonal patterns and changes in network performance.
+The Monthly Sales Distribution dashboard examines revenue performance across XS Espresso locations from January 2023 to March 2025. It highlights monthly sales trends, seasonal fluctuations, and changes in network revenue over time.
 
-### Revenue Dashboard
+The analysis helps evaluate sales consistency, identify periods of stronger or weaker demand, and support operational decisions involving workforce planning, inventory management, and revenue forecasting.
 
-![XS Espresso revenue dashboard](screenshots/revenue_dashboard.png)
+
 
 ### Food vs Drink Sales
 

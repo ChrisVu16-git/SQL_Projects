@@ -31,19 +31,46 @@ Relationships use date and store identifiers, with dimensions filtering facts. T
 
 > **Model consideration:** The monthly P&L fact has a different date grain from daily facts; month-level reporting should use an appropriate month key or date strategy rather than assuming that every daily date filters a month-start column identically.
 
-## 3. Business Questions
+
+## 3. Power BI Dashboard
+
+The Power BI report includes an Executive Overview and Sales Performance views covering network sales, gross margin, operating profit, labour cost, store rankings, hourly revenue, weekday revenue, channel mix, and food/drink revenue.
+
+The three analytical visualisations—**Demand Heatmap**, **Actual vs Forecast**, and **Store Performance Quadrant**—were produced separately and are not embedded in the original PBIX.
+
+### Monthly Sales Distribution
+
+![XS Espresso monthly sales distribution](screenshots/sales_monthly_distribution.png)
+
+This view summarises the sales distribution over time, providing a starting point for examining seasonal patterns and changes in network performance.
+
+### Revenue Dashboard
+
+![XS Espresso revenue dashboard](screenshots/revenue_dashboard.png)
+
+### Food vs Drink Sales
+
+![XS Espresso food and drink sales](screenshots/food_drink_stacked.png)
+
+**Power BI data model:** See the [ERD screenshot in Section 2](#2-entityrelationship-diagram-erd).
+
+**Download the Power BI report:** [XS_Espresso_Dashboard.pbix](dashboard/XS_Espresso_Dashboard.pbix)
+
+The dashboard screenshots are committed to this repository. The Power BI report is the original dashboard file; the three featured analytical figures in Section 6 are separate visuals, not additional report pages.
+
+## 4. Business Questions
 
 1. **Demand:** Which weekday/hour combinations create the greatest pressure on operations?
 2. **Forecasting:** Does an accurate aggregate forecast also perform well at the hourly level?
 3. **Store performance:** Which stores have strong sales but relatively weak profitability?
 
-## 4. Data Preparation and Validation
+## 5. Data Preparation and Validation
 
 The PostgreSQL `xs` schema holds the dimensional model and financial fact tables. Analysis should reconcile transaction net sales to daily and monthly summaries within consistent reporting periods. Revenue, gross profit, labour costs, and operating profit are kept distinct to avoid mixing metrics from different grains.
 
 Checks include uniqueness of store/date/hour keys, missing values, invalid trading hours, duplicate transactions, and revenue reconciliations. Monthly P&L is not added to transaction facts because that would double-count financial metrics.
 
-## 5. SQL Analysis and Findings
+## 6. SQL Analysis and Findings
 
 The accompanying [SQL analysis](sql/portfolio_analyses.sql) reproduces three portfolio investigations.
 
@@ -77,7 +104,7 @@ WAPE = SUM(ABS(actual - forecast)) / SUM(ABS(actual)) × 100
 
 **Interpretation:** High-revenue/low-margin stores warrant cost-driver investigation; low-revenue/high-margin stores may have effective cost discipline worth studying. These segments are exploratory, not causal explanations.
 
-## 6. Data Storytelling — From Patterns to Decisions
+## 7. Data Storytelling — From Patterns to Decisions
 
 ### Story 1 — Demand is uneven throughout the trading day
 
@@ -112,32 +139,6 @@ WAPE = SUM(ABS(actual - forecast)) / SUM(ABS(actual)) × 100
 ### Combined narrative
 
 **Customer demand → Forecast reliability → Staffing decisions → Store profitability.** These are connected management questions, not proof of causation. The analysis identifies where to investigate and what to test next.
-
-## 7. Power BI Dashboard
-
-The Power BI report includes an Executive Overview and Sales Performance views covering network sales, gross margin, operating profit, labour cost, store rankings, hourly revenue, weekday revenue, channel mix, and food/drink revenue.
-
-The three analytical visualisations—**Demand Heatmap**, **Actual vs Forecast**, and **Store Performance Quadrant**—were produced separately and are not embedded in the original PBIX.
-
-### Dashboard Screenshots
-
-**Revenue dashboard**
-
-![XS Espresso revenue dashboard](screenshots/revenue_dashboard.png)
-
-**Monthly sales distribution**
-
-![XS Espresso monthly sales distribution](screenshots/sales_monthly_distribution.png)
-
-**Food vs Drink Sales**
-
-![XS Espresso food and drink sales](screenshots/food_drink_stacked.png)
-
-**Power BI data model:** See the [ERD screenshot in Section 2](#2-entityrelationship-diagram-erd).
-
-**Download the Power BI report:** [XS_Espresso_Dashboard.pbix](dashboard/XS_Espresso_Dashboard.pbix)
-
-The screenshots above are committed to this repository. The Power BI report is the original dashboard file; the three featured analytical figures in Section 5 are separate visuals, not additional report pages.
 
 ## 8. Skills Demonstrated
 

@@ -23,9 +23,13 @@ The Power BI model uses two shared dimensions, `dim_date` and `dim_store`, relat
 | `fact_labour_efficiency` | Store × date × hour |
 | `fact_payroll_shift` | Employee × shift |
 
-Relationships use date and store identifiers, with dimensions filtering facts. The original Power BI relationship screenshot is included in the local portfolio package; add it to `screenshots/data_model_relationships.png` before enabling the image below.
+Relationships use date and store identifiers, with dimensions filtering facts. The diagram below is the Power BI relationship view for the analytical model. It illustrates the shared date and store dimensions and the relationships used to analyse transactions, demand, finance, labour, and payroll at different grains.
 
-<!-- ![Power BI relationships](screenshots/data_model_relationships.png) -->
+![XS Espresso Power BI entity–relationship diagram](screenshots/data_model_relationships.png)
+
+[Open full-size ERD](screenshots/data_model_relationships.png) · [ERD source (Mermaid)](docs/ERD.mmd)
+
+> **Model consideration:** The monthly P&L fact has a different date grain from daily facts; month-level reporting should use an appropriate month key or date strategy rather than assuming that every daily date filters a month-start column identically.
 
 ## 3. Business Questions
 
@@ -45,11 +49,15 @@ The accompanying [SQL analysis](sql/portfolio_analyses.sql) reproduces three por
 
 ### Hour × Weekday Demand
 
+![Average transactions per store-hour by weekday and hour](screenshots/hour_weekday_heatmap.png)
+
 **Method:** Group store-hour observations by ISO weekday and hour. Use `SUM(transactions) / COUNT(*)` to calculate average transactions per recorded store-hour, including zero-transaction observations.
 
 **Interpretation:** High-demand cells highlight likely service bottlenecks. These are candidates for reviewing roster overlap, preparation and kitchen coverage—not automatic evidence that staffing is inadequate.
 
 ### Actual vs Forecast Revenue
+
+![Actual revenue compared with forecast revenue](screenshots/actual_vs_forecast.png)
 
 **Method:** Compare `net_sales_aud` against `forecast_hourly_revenue_aud` at the store-hour grain. Calculate weighted absolute percentage error:
 
@@ -62,6 +70,8 @@ WAPE = SUM(ABS(actual - forecast)) / SUM(ABS(actual)) × 100
 **Interpretation:** Forecast totals can nearly cancel out while individual store-hours remain inaccurate. Therefore monthly totals alone are insufficient for workforce scheduling decisions.
 
 ### Store Performance Quadrant
+
+![Store-level revenue and operating-margin performance quadrant](screenshots/store_performance_quadrant.png)
 
 **Method:** Aggregate each store's net revenue and operating profit before central costs. Calculate operating margin and split stores at the median revenue and margin.
 
@@ -109,7 +119,25 @@ The Power BI report includes an Executive Overview and Sales Performance views c
 
 The three analytical visualisations—**Demand Heatmap**, **Actual vs Forecast**, and **Store Performance Quadrant**—were produced separately and are not embedded in the original PBIX.
 
-The local portfolio package contains the working PBIX and screenshots. The binary assets are not yet hosted in this GitHub folder; upload them to `dashboard/` and `screenshots/` before adding image links here.
+### Dashboard Screenshots
+
+**Revenue dashboard**
+
+![XS Espresso revenue dashboard](screenshots/revenue_dashboard.png)
+
+**Monthly sales distribution**
+
+![XS Espresso monthly sales distribution](screenshots/sales_monthly_distribution.png)
+
+**Food vs Drink Sales**
+
+![XS Espresso food and drink sales](screenshots/food_drink_stacked.png)
+
+**Power BI data model:** See the [ERD screenshot in Section 2](#2-entityrelationship-diagram-erd).
+
+**Download the Power BI report:** [XS_Espresso_Dashboard.pbix](dashboard/XS_Espresso_Dashboard.pbix)
+
+The screenshots above are committed to this repository. The Power BI report is the original dashboard file; the three featured analytical figures in Section 5 are separate visuals, not additional report pages.
 
 ## 8. Skills Demonstrated
 
@@ -122,4 +150,4 @@ The local portfolio package contains the working PBIX and screenshots. The binar
 
 The dataset covers **January 2023–March 2025**, so 2025 is a partial year. Comparisons must use like-for-like periods. Food/drink allocation is modelled rather than observed item-level sales. Future work could validate forecast models out-of-sample and test demand-adjusted labour scheduling.
 
-**Project assets:** The full README, original PBIX, screenshots and additional SQL scripts were prepared in the separate portfolio ZIP package; the GitHub upload can be completed by adding those binary files.
+**Project assets:** [Power BI dashboard](dashboard/XS_Espresso_Dashboard.pbix) · [Screenshots](screenshots/) · [SQL analyses](sql/portfolio_analyses.sql) · [SQL schema](sql/01_schema.sql) · [Data quality checks](sql/03_quality_checks.sql) · [KPI views](sql/05_kpi_views.sql) · [ERD source](docs/ERD.mmd).

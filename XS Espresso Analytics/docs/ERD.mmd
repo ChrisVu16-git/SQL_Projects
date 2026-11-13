@@ -1,0 +1,54 @@
+erDiagram
+ DIM_STORE ||--o{ FACT_TRANSACTION : store_id
+ DIM_STORE ||--o{ FACT_DAILY_FINANCIAL : store_id
+ DIM_STORE ||--o{ FACT_DAILY_SALES : store_id
+ DIM_STORE ||--o{ FACT_MONTHLY_PNL : store_id
+ DIM_STORE ||--o{ FACT_PAYROLL_SHIFT : store_id
+ DIM_STAFF_ASSIGNMENT ||--o{ FACT_PAYROLL_SHIFT : employee_key
+ DIM_DATE ||--o{ FACT_TRANSACTION : transaction_date
+ DIM_DATE ||--o{ FACT_DAILY_FINANCIAL : date
+ DIM_DATE ||--o{ FACT_PAYROLL_SHIFT : date
+ DIM_DATE ||--o{ FACT_HOURLY_DEMAND : date
+ DIM_DATE ||--o{ FACT_HOURLY_STAFFING : date
+ DIM_DATE ||--o{ FACT_LABOUR_EFFICIENCY : date
+ FACT_ANNUAL_FINANCIAL {
+   int year PK
+   numeric central_overhead_aud
+   numeric systemwide_profit_after_notional_central_overhead_aud
+ }
+ DIM_STORE { text store_id PK
+ text store_name
+ text store_size_model }
+ DIM_STAFF_ASSIGNMENT { text employee_key PK
+ text employee_id
+ text role
+ numeric hourly_rate_aud }
+ DIM_DATE { date date_key PK
+ int calendar_year
+ int month_number }
+ FACT_TRANSACTION { text transaction_id PK
+ text store_id FK
+ date transaction_date FK
+ numeric net_sales_aud }
+ FACT_DAILY_FINANCIAL { text store_id FK
+ date date FK
+ numeric operating_profit_before_central_costs_aud }
+ FACT_DAILY_SALES { text store_id FK
+ date date FK
+ numeric net_sales_aud }
+ FACT_MONTHLY_PNL { text store_id FK
+ text month
+ numeric operating_profit_before_central_costs_aud }
+ FACT_PAYROLL_SHIFT { text employee_key FK
+ text store_id FK
+ date date FK
+ numeric total_employer_cost_aud }
+ FACT_HOURLY_DEMAND { text store_id FK
+ date date FK
+ int hour }
+ FACT_HOURLY_STAFFING { text store_id FK
+ date date FK
+ int hour }
+ FACT_LABOUR_EFFICIENCY { text store_id FK
+ date date FK
+ int hour }

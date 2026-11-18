@@ -34,15 +34,13 @@ Relationships use date and store identifiers, with dimensions filtering facts. T
 
 ## 3. Business Overview
 
-### Operational Dashboard — Supplier Invoice Reconciliation
+### XS Espresso operation dashboard
 
-![Operational dashboard showing invoice match rate, open variance by issue, and the aged exception queue](screenshots/operational_dashboard.png)
+![XS Espresso operation dashboard with network sales, profitability, labour, demand, and invoice follow-up](screenshots/company_operations_dashboard.png)
 
-The dashboard shows how a store supervisor, supplier, and general manager can follow up on differences between supplier invoices and stock received. It tracks first-pass matches, open discrepancies, open variance in AUD, and the next action for each invoice. Items open for more than seven days are highlighted for management follow-up.
+The dashboard gives managers a network-wide view of sales, profitability, forecast performance, customer demand, and labour costs. The supplier invoice panel is a synthetic March 2025 example of how unresolved stock and invoice discrepancies can be escalated.
 
-The March 2025 snapshot uses synthetic invoice records created for this portfolio demonstration. The repository's sales and financial data does not contain supplier invoices or receiving records.
-
-[Open full-size dashboard](screenshots/operational_dashboard.png) · [Dashboard generator](dashboard/build_operational_dashboard.py) · [Original revenue dashboard](screenshots/revenue_dashboard.png)
+[Open full-size dashboard](screenshots/company_operations_dashboard.png) · [Dashboard generator](dashboard/build_company_operations_dashboard.py) · [Invoice reconciliation detail](screenshots/operational_dashboard.png) · [Original revenue dashboard](screenshots/revenue_dashboard.png)
 
 ### Monthly Sales Distribution
 

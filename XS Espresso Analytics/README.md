@@ -154,5 +154,3 @@ WAPE = SUM(ABS(actual - forecast)) / SUM(ABS(actual)) × 100
 ## 9. Scope and Next Steps
 
 The dataset covers **January 2023–March 2025**, so 2025 is a partial year. Comparisons must use like-for-like periods. Food/drink allocation is modelled rather than observed item-level sales. Future work could validate forecast models out-of-sample and test demand-adjusted labour scheduling.
-
-**Project assets:** [Power BI dashboard](dashboard/XS_Espresso_Dashboard.pbix) · [Screenshots](screenshots/) · [SQL analyses](sql/portfolio_analyses.sql) · [SQL schema](sql/01_schema.sql) · [Data quality checks](sql/03_quality_checks.sql) · [KPI views](sql/05_kpi_views.sql) · [ERD source](docs/ERD.mmd).

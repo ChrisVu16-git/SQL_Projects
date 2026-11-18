@@ -9,7 +9,7 @@ MUTED = "#42625d"
 ACCENT = "#136b5c"
 PAPER = "#edf4f1"
 
-canvas = Image.new("RGB", (1440, 1070), PAPER)
+canvas = Image.new("RGB", (1440, 1048), PAPER)
 draw = ImageDraw.Draw(canvas)
 
 
@@ -70,6 +70,5 @@ text(751, 879, "5 open discrepancies  /  A$1,186 pending", 21, INK, True)
 text(751, 913, "March 2025 illustrative invoice snapshot", 15, MUTED)
 text(751, 953, "Follow up with store supervisors and suppliers.", 16, MUTED)
 text(751, 978, "Escalate unresolved discrepancies to the General Manager.", 16, MUTED)
-text(42, 1040, "Sources: portfolio Power BI and SQL outputs. Invoice figures are separate synthetic examples.", 15, MUTED)
 
 canvas.quantize(colors=150).save(SCREENSHOTS / "company_operations_dashboard.png", optimize=True)

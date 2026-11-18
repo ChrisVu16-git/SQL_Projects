@@ -34,13 +34,15 @@ Relationships use date and store identifiers, with dimensions filtering facts. T
 
 ## 3. Business Overview
 
-### Company Operations Dashboard
+### Operational Dashboard — Supplier Invoice Reconciliation
 
-![XS Espresso company operations dashboard covering network sales, profit, labour, demand, store performance, and invoice follow-up](screenshots/company_operations_dashboard.png)
+![Operational dashboard showing invoice match rate, open variance by issue, and the aged exception queue](screenshots/operational_dashboard.png)
 
-The network view combines sales and profitability KPIs with monthly forecast trends, hourly demand for roster planning, and store-level margin comparisons. It helps managers decide where to review workforce coverage and investigate cost drivers. The stock and supplier invoice panel shows a separate March 2025 workflow demonstration with synthetic records.
+The dashboard shows how a store supervisor, supplier, and general manager can follow up on differences between supplier invoices and stock received. It tracks first-pass matches, open discrepancies, open variance in AUD, and the next action for each invoice. Items open for more than seven days are highlighted for management follow-up.
 
-[Open full-size company dashboard](screenshots/company_operations_dashboard.png) · [Dashboard generator](dashboard/build_company_operations_dashboard.py) · [Invoice reconciliation detail](screenshots/operational_dashboard.png) · [Original revenue dashboard](screenshots/revenue_dashboard.png)
+The March 2025 snapshot uses synthetic invoice records created for this portfolio demonstration. The repository's sales and financial data does not contain supplier invoices or receiving records.
+
+[Open full-size dashboard](screenshots/operational_dashboard.png) · [Dashboard generator](dashboard/build_operational_dashboard.py) · [Original revenue dashboard](screenshots/revenue_dashboard.png)
 
 ### Monthly Sales Distribution
 
@@ -154,3 +156,5 @@ WAPE = SUM(ABS(actual - forecast)) / SUM(ABS(actual)) × 100
 ## 9. Scope and Next Steps
 
 The dataset covers **January 2023–March 2025**, so 2025 is a partial year. Comparisons must use like-for-like periods. Food/drink allocation is modelled rather than observed item-level sales. Future work could validate forecast models out-of-sample and test demand-adjusted labour scheduling.
+
+**Project assets:** [Power BI dashboard](dashboard/XS_Espresso_Dashboard.pbix) · [Screenshots](screenshots/) · [SQL analyses](sql/portfolio_analyses.sql) · [SQL schema](sql/01_schema.sql) · [Data quality checks](sql/03_quality_checks.sql) · [KPI views](sql/05_kpi_views.sql) · [ERD source](docs/ERD.mmd).

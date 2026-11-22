@@ -1,0 +1,11 @@
+version: 2
+sources:
+  - name: cafe
+    schema: "{{ var('source_schema', 'xs') }}"
+    tables:
+      - name: dim_store
+        columns:
+          - name: store_id
+            tests: [unique, not_null]
+      - name: fact_daily_financial
+      - name: fact_hourly_demand

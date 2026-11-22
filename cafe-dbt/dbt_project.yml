@@ -1,0 +1,7 @@
+name: cafe
+version: '1.0.0'
+config-version: 2
+profile: cafe
+models:
+  cafe:
+    +materialized: view

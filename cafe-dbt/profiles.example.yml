@@ -1,0 +1,12 @@
+cafe:
+  target: postgres
+  outputs:
+    postgres:
+      type: postgres
+      host: "{{ env_var('PGHOST', 'localhost') }}"
+      port: 5432
+      user: "{{ env_var('PGUSER', 'postgres') }}"
+      password: "{{ env_var('PGPASSWORD', '') }}"
+      dbname: "{{ env_var('PGDATABASE', 'xs_espresso') }}"
+      schema: cafe_reporting
+      threads: 2
